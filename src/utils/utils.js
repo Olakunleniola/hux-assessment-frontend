@@ -83,10 +83,10 @@ const getContactById = async (id) => {
 }
 
 // Function to update a contact  
-const updateContact = async(id) =>  {
+const updateContact = async(id, contactData) =>  {
     const token = localStorage.getItem('token');
     try {
-        const response = await axios.put(`${url}/contacts/${id}`, {
+        const response = await axios.put(`${url}/contacts/${id}`, contactData, {
             headers: {
                 "Content-Type": "application/json",
                 "x-auth-token": token,

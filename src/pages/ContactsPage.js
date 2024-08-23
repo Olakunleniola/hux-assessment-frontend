@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getContacts, deleteContact } from "../utils/utils";
 import { Link } from "react-router-dom";
 
@@ -6,6 +7,7 @@ export default function ContactsPage() {
   const [contacts, setContacts] = useState([]); // Initialize contacts as an empty array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Use navigate hook for redirection
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -31,6 +33,11 @@ export default function ContactsPage() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove token from localStorage
+    navigate('/login'); // Redirect to login page
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="container mx-auto px-4 py-8">
@@ -39,8 +46,14 @@ export default function ContactsPage() {
           <Link to="/contacts/create" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             Create New Contact
           </Link>
-          {error && <div className="p-2 text-red-400 bg-red-800 rounded">{error}</div>}
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          >
+            Logout
+          </button>
         </div>
+        {error && <div className="p-2 text-red-400 bg-red-800 rounded mb-4">{error}</div>}
         {loading ? (
           <div className="text-center text-lg">Loading...</div>
         ) : (
