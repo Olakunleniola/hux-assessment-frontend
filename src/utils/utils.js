@@ -118,4 +118,4 @@ const deleteContact = async (id) => {
 }
 
 
-export { login, register, getContacts, createContact };
+export { login, register, getContacts, createContact, deleteContact };
