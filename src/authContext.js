@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Create context
@@ -43,6 +43,7 @@ const reducer = (state, action) => {
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
+  const [initialRedirect, setInitialRedirect] = useState(false); // Track if the initial redirect has occurred
 
   // Check for existing token and user in local storage on app load
   React.useEffect(() => {
@@ -51,9 +52,14 @@ const AuthProvider = ({ children }) => {
 
     if (token && user) {
       dispatch({ type: "LOGIN", payload: { token, user } });
-      navigate("/contacts")
-    } 
-  }, []);
+
+      // Only navigate if it's the first load and the user is authenticated
+      if (!initialRedirect) {
+        setInitialRedirect(true);
+        navigate("/contacts");
+      }
+    }
+  }, [navigate, initialRedirect]);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
