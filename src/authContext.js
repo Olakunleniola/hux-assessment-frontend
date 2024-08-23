@@ -1,5 +1,5 @@
 import React, { useReducer, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 // Create context
 export const AuthContext = React.createContext();
@@ -51,6 +51,7 @@ const AuthProvider = ({ children }) => {
 
     if (token && user) {
       dispatch({ type: "LOGIN", payload: { token, user } });
+      navigate("/contacts")
     } 
   }, []);
 
