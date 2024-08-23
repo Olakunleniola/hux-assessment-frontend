@@ -50,24 +50,15 @@ const AuthProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (token && user) {
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          token,
-          user,
-        },
-      });
+      dispatch({ type: "LOGIN", payload: { token, user } });
+      navigate("/contacts"); // Redirect logged-in users to ContactsPage
+    } else {
+      navigate("/"); // Redirect anonymous users to HomePage
     }
   }, []);
 
-  // Automatically log out and redirect if token becomes invalid
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-    navigate("/login");
-  };
-
   return (
-    <AuthContext.Provider value={{ state, dispatch, handleLogout }}>
+    <AuthContext.Provider value={{ state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
