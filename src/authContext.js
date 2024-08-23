@@ -51,10 +51,7 @@ const AuthProvider = ({ children }) => {
 
     if (token && user) {
       dispatch({ type: "LOGIN", payload: { token, user } });
-      navigate("/contacts"); // Redirect logged-in users to ContactsPage
-    } else {
-      navigate("/"); // Redirect anonymous users to HomePage
-    }
+    } 
   }, []);
 
   return (
